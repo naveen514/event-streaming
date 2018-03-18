@@ -7,10 +7,10 @@ var argv = require('optimist').argv;
 var topic = argv.topic || 'twitter_stream_test1';
 var p = argv.p || 0;
 var a = argv.a || 0;
+
 var producer = new Producer(client, {
   requireAcks: 1
 });
-
 
 var Twitter = require('twitter');
 require('dotenv').config()
@@ -25,8 +25,8 @@ var client = new Twitter({
 var stream = client.stream('statuses/filter', {
   track: 'javascript'
 });
+
 stream.on('data', function(event) {
-  console.log(event);
   producer.send([{
     topic: topic,
     partition: p,
