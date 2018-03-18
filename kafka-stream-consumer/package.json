@@ -1,0 +1,18 @@
+{
+  "name": "kafka-stream-consumer",
+  "version": "1.0.0",
+  "description": "Kafka stream consumere",
+  "main": "kfsconsumer.js",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "kafka",
+    "consumer",
+    "streaming"
+  ],
+  "author": "rakesh",
+  "license": "ISC"
+}
