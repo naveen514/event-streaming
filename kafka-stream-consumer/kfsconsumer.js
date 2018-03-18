@@ -1,6 +1,6 @@
 var kafka = require('kafka-node');
 //var Consumer = kafka.Consumer;
-var client = new kafka.Client("192.168.1.7:2181");
+var client = new kafka.Client("localhost:2181");
 //console.log(client)
 var consumer = new kafka.Consumer(
         client,
