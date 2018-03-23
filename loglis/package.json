@@ -1,0 +1,17 @@
+{
+  "name": "loglis",
+  "version": "1.0.0",
+  "description": "logs listener",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "logs"
+  ],
+  "author": "Naveen",
+  "license": "ISC",
+  "dependencies": {
+    "socket.io": "2.0.3"
+  }
+}
