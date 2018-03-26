@@ -8,6 +8,10 @@ const MongoClient = require('mongodb').MongoClient
 
 //var db = new Db('test', new Server('localhost', 27017));
 
+function trimSpecialChars(str) {
+  return str.replace(/^[\s|\[|\]|\"|*]+|[\s|\[|\]|\"|*]+$/g,'')
+}
+
 MongoClient.connect(url, (err, db) => {
   // ... start the server
   if (err) throw err;
@@ -27,7 +31,7 @@ MongoClient.connect(url, (err, db) => {
     var consumer = new kafka.Consumer(
             client,
             [
-                { topic: 'eventlog', partition: 0 }
+                { topic: 'event_stream', partition: 0 }
             ],
             {
                 autoCommit: true
@@ -35,19 +39,24 @@ MongoClient.connect(url, (err, db) => {
         );
     consumer.on('message', function (message) {
       var data = null;
-      console.log(message.value)
+      //console.log(message.value)
       try {
         data = JSON.parse(message.value);
       } catch (e) {
         return console.error(e);
       }
 
+      var msgsplit = data.message.split(' ');
+      //console.log(msgsplit)
+
       var event = {}
-      event["device_id"] = data.device_id
-      event["tracer_id"] = data.tracer_id
-      event["api_name"] = data.api_name
-      event["status"] = data.status
-      console.log(event)
+      //console.log(trimSpecialChars(msgsplit[14]))
+      event["device_id"] = trimSpecialChars(msgsplit[14])
+      event["device_type"] = trimSpecialChars(msgsplit[15])
+      event["tracer_id"] = trimSpecialChars(msgsplit[17])
+      event["api_name"] = trimSpecialChars(msgsplit[7])
+      event["status"] = parseInt(trimSpecialChars(msgsplit[9]), 10)
+      //console.log(event)
 
       dbclient.collection("events").insert(event, function(err, res) {
         if (err) throw err;
