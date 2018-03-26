@@ -4,7 +4,9 @@
   "description": "Kafka stream consumere",
   "main": "kfsconsumer.js",
   "dependencies": {
-    "kafka-node": "^2.4.1"
+    "kafka-node": "^2.4.1",
+    "mongodb": "^3.0.4",
+    "socket.io": "^2.0.4"
   },
   "devDependencies": {},
   "scripts": {
