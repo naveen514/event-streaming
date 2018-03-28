@@ -47,23 +47,34 @@ MongoClient.connect(url, (err, db) => {
       }
 
       var msgsplit = data.message.split(' ');
-      //console.log(msgsplit)
+      console.log(msgsplit)
 
       var event = {}
       //console.log(trimSpecialChars(msgsplit[14]))
       event["device_id"] = trimSpecialChars(msgsplit[14])
       event["device_type"] = trimSpecialChars(msgsplit[15])
       event["tracer_id"] = trimSpecialChars(msgsplit[17])
-      event["api_name"] = trimSpecialChars(msgsplit[7])
+      event["api_name"] = trimSpecialChars(msgsplit[7]).split('/').pop()
       event["status"] = parseInt(trimSpecialChars(msgsplit[9]), 10)
-      //console.log(event)
+      event["request_length"] = parseInt(trimSpecialChars(msgsplit[10]), 10)
+      event["response_length"] = parseInt(trimSpecialChars(msgsplit[11]), 10)
+
+      //var event_time_arr = [];
+      var event_time_arr = trimSpecialChars(msgsplit[4])
+      event_time_arr = event_time_arr.split(':');
+      var date_slice = event_time_arr[0]
+      var time_slice = event_time_arr.slice(1,event_time_arr.length).join(':')
+
+      var event_time = [date_slice, time_slice].join(' ')
+      event["event_timestamp"] = new Date(event_time)
+      //console.log(event_time)
 
       dbclient.collection("events").insert(event, function(err, res) {
         if (err) throw err;
         //console.log("message:"+message+" inserted")
         console.log("Event Inserted!")
       });
-    });
+     });
 
     consumer.on('error', function (err) {
       console.log('error', err);
