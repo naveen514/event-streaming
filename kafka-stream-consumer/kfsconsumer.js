@@ -1,6 +1,6 @@
 var kafka = require('kafka-node');
 //var Consumer = kafka.Consumer;
-var client = new kafka.Client("localhost:2181");
+var client = new kafka.Client("10.210.0.6:2181");
 
 var url = "mongodb://localhost:27017/event_stream";
 var dbclient = null;
@@ -9,7 +9,10 @@ const MongoClient = require('mongodb').MongoClient
 //var db = new Db('test', new Server('localhost', 27017));
 
 function trimSpecialChars(str) {
-  return str.replace(/^[\s|\[|\]|\"|*]+|[\s|\[|\]|\"|*]+$/g,'')
+  if (str != null ) {
+      return str.replace(/^[\s|\[|\]|\"|*]+|[\s|\[|\]|\"|*]+$/g,'')
+  }
+  return null
 }
 
 MongoClient.connect(url, (err, db) => {
